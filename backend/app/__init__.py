@@ -9,7 +9,14 @@ def create_app(config_name='development'):
     app.config.from_object(Config)
     
     # Initialize CORS with frontend URL
-    CORS(app, origins=app.config['CORS_ORIGINS'], supports_credentials=True)
+    cors_origins = app.config['CORS_ORIGINS']
+    CORS(
+        app, 
+        origins=cors_origins,
+        supports_credentials=True,
+        allow_headers=["Content-Type", "Authorization"],
+        methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    )
     
     # Initialize extensions
     db.init_app(app)
